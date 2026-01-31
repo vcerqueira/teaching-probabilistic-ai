@@ -207,13 +207,14 @@ def discretize_features(df):
 
     return df
 
+
 #
 matches = pd.read_csv('project/dataset/matches.csv', parse_dates=['date'])
 
-
 matches = compute_features(matches, n_matches=5)
-matches = matches.loc[matches['date'].dt.year > 2005,:].reset_index(drop=True)
+matches = matches.loc[matches['date'].dt.year > 2005, :].reset_index(drop=True)
 matches = matches.fillna(0)
+matches = matches.drop(columns=['h2h_total_matches'])
 
 matches = discretize_features(matches)
 
@@ -225,5 +226,8 @@ matches['at_attack'].value_counts()
 matches['h2h_dominance'].value_counts()
 matches['odds_favorite'].value_counts()
 
-
 matches.to_csv('project/dataset/dataset.csv', index=False)
+
+# import pandas as pd
+# matches = pd.read_csv('project/dataset/dataset.csv', parse_dates=['date'])
+# matches.iloc[0]
